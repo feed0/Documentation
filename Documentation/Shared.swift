@@ -16,18 +16,18 @@ import Foundation
 
 /// Shows a single given photo
 @MainActor
-public func show(_ photo: Data) {
-    print("🖼️ Displaying photo bytes: \(photo.count) bytes")
+public func show(_ photo: PhotoModel) {
+    print("🖼️ Displaying photo bytes: \(photo.byteCount) bytes")
 }
 
 /// Shows a collections of given photos
 @MainActor
-public func show(_ photos: [Data]) {
+public func show(_ photos: [PhotoModel]) {
     print("🖼️ Displaying a gallery of \(photos.count) photos.")
 }
 
 /// Pretends a network call
-public func downloadPhoto(named name: String) async -> Data {
+public func downloadPhoto(named name: String) async -> PhotoModel {
     try? await Task.sleep(for: .milliseconds(Int.random(in: 40...130)))
-    return PhotoModel.sample
+    return PhotoModel(name: name)
 }
