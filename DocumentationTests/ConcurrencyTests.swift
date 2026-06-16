@@ -53,4 +53,41 @@ struct ConcurrencyTests {
         /// Assert
         print("\t⏹️ End: Multiple photos processing complete.")
     }
+    
+    /// https://docs.swift.org/swift-book/documentation/the-swift-programming-language/concurrency/#Calling-Asynchronous-Functions-in-Parallel
+    @Test(
+        "Async functions in parallel",
+        arguments: [
+            true,
+            false
+        ]
+    )
+    func sequentialAndParallelDownloads(isParalel: Bool) async {
+        /// Sequential
+        if !isParalel {
+            print("\t▶️ Start: Sequential downloads...")
+            
+            for photoName in ["seq1", "seq2", "seq3", "seq4", "seq5", "seq6", "seq7", "seq8", "seq9", "seq10", "seq11", "seq12", "seq13", "seq14", "seq15", "seq16", "seq17", "seq18", "seq19", "seq20"] {
+                _ = await downloadPhoto(named: photoName)
+                print("\t📦 Downloaded \(photoName)...")
+            }
+            
+            print("\t⏹️ End: Sequential downloads complete.")
+        }
+        
+        /// Parallel
+        if isParalel {
+            Task {
+                print("\t▶️ Start: Parallel downloads...")
+                
+                for photoName in ["par1", "par2", "par3", "par4", "par5", "par6", "par7", "par8", "par9", "par10", "par11", "par12", "par13", "par14", "par15", "par16", "par17", "par18", "par19", "par20"] {
+                    async let _ = downloadPhoto(named: photoName)
+                    print("\t📦 Downloaded \(photoName)...")
+                    
+                }
+                
+                print("\t⏹️ End: Parallel downloads complete.")
+            }
+        }
+    }
 }
